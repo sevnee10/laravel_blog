@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="{{asset('backend/css/style.css')}}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{asset('backend/images/favicon.png')}}" />
- 
+    @livewireStyles
 </head>
 <body>
     <div class="container-scroller">
@@ -61,5 +61,7 @@
         <script src="{{asset('backend/js/dataTables.bootstrap4.js')}}"></script>
         <!-- End custom js for this page-->
         <script src="{{asset('backend/js/jquery.cookie.js')}}" type="text/javascript"></script>
+        @livewireScripts
+        @stack('script')
 </body>
 </html>
