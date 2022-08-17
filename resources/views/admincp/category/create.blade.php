@@ -15,7 +15,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label>Name</label>
-                                <input type="text" name="name" err class="form-control"/>
+                                <input type="text" name="name" id="editor" class="form-control"/>
                                 @error('name')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror

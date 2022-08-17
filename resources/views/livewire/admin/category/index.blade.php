@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-        <div class="row">
+        <div id="dt" class="row">
             <div class="col-md-12">
                 @if(session('message'))    
                     <div class="alert alert-success">{{session('message')}}!</div>
@@ -56,7 +56,7 @@
                             @endforeach
                         </table>
                         <br>
-                        <div>
+                        <div id="paginate">
                             {!! $categories->links() !!}
                         </div>
                     </div>
@@ -71,3 +71,14 @@
         });
     </script>
 @endpush
+{{-- @push('notload')
+    <script>
+        $(document).ready(function () {
+
+setInterval( function() {
+    $("#dt").load(location.href + " #dt");
+}, 1000 );
+
+});
+    </script>
+@endpush --}}

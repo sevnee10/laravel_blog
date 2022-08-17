@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\EditorController;
+use App\Http\Controllers\Admin\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,5 +42,19 @@ Route::middleware('auth','isAdmin')->prefix('admin')->group(function() {
 
     });
 
+    //Post Controller
+    Route::controller(PostController::class)->group(function(){
+        Route::get('/post','index');
+        Route::get('/post/create', 'create');
+        Route::get('/post/{post}/edit','edit');
+        Route::get('/post/{post_id}/delete','destroy');
+
+        Route::post('/post','store');
+        Route::put('/post/{post}', 'update');
+
+    });
+
+    //Editor Controller
+    Route::post('/images', [EditorController::class,'store'])->name('images.store');
 
 });

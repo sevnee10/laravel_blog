@@ -23187,4 +23187,10 @@ dl li {
   outline: 1px solid slategrey;
 }
 
+input.form-control,textarea.form-control {
+  border: 1px solid #c5c5c5;
+}
+a.btn.btn-sm.btn-success, a.btn.btn-sm.btn-danger {
+    width: 100%;
+}
 /*# sourceMappingURL=maps/style.css.map */

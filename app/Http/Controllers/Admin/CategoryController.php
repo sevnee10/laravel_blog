@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryFormRequest;
 use App\Models\Category;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
