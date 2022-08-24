@@ -15,7 +15,7 @@ use Illuminate\View\View;
      */
     public function compose(View $view)
     { 
-        $posts = Post::orderBy('id','asc')->paginate(4);
+        $posts = Post::orderBy('id','asc')->paginate(8);
         $users = User::with('posts')->get();
         $view->with(compact('posts', 'users'));
     }
