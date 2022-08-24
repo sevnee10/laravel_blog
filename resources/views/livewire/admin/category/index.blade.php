@@ -71,14 +71,3 @@
         });
     </script>
 @endpush
-{{-- @push('notload')
-    <script>
-        $(document).ready(function () {
-
-setInterval( function() {
-    $("#dt").load(location.href + " #dt");
-}, 1000 );
-
-});
-    </script>
-@endpush --}}

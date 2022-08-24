@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\EditorController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Client\ClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +19,20 @@ use App\Http\Controllers\Admin\PostController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home',[ClientController::class,'index'])->name('home');
+
+Route::get('/',[ClientController::class,'index']);
+Route::get('/posts/{post_id}',[ClientController::class,'details_post']);
+Route::get('/your-posts',[ClientController::class,'your_posts']);
+Route::get('/create-post',[ClientController::class,'create_your_post']);
+Route::post('/save-post',[ClientController::class,'save_post']);
+Route::post('/client-images', [ClientController::class,'store_image'])->name('client-images.store');
 
 Route::middleware('auth','isAdmin')->prefix('admin')->group(function() {
 

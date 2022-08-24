@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -29,11 +31,11 @@ class LoginController extends Controller
      */
     // protected $redirectTo = RouteServiceProvider::HOME;
     protected function authenticated()
-    {
+    {   
         if(Auth::user()->type =='1'){
             return redirect('/admin/dashboard')->with('message','Welcome to Dashboard');
         }else {
-            return redirect('/home')->with('status','Logged in Successfully');
+            return redirect('/')->with('status','Logged in Successfully');
         }
     }
     /**

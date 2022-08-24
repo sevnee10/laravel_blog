@@ -10,13 +10,20 @@
                     </h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{url('admin/post')}}" method="POST">
+                    <form action="{{url('admin/post')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label>Title</label>
                                 <input type="text" name="title" class="form-control"/>
                                 @error('title')
+                                    <small class="text-danger">{{$message}}</small>
+                                @enderror
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Image Title</label>
+                                <input type="file" name="ima_title" class="form-control"/>
+                                @error('ima_title')
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
                             </div>
@@ -40,7 +47,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Status</label>
-                                <input type="checkbox" name="status" />
+                                <input type="checkbox" name="status"/>
                             </div>
                         </div>
                         <div class="col-md-12  mb-3">

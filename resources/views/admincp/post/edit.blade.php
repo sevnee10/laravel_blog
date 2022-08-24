@@ -9,7 +9,7 @@
                 </h3>
             </div>
             <div class="card-body">
-                <form action="{{url('admin/post/'.$post->id)}}" method="POST">
+                <form action="{{url('admin/post/'.$post->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -21,10 +21,17 @@
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
+                            <label>Image Title</label>
+                            <input type="file" name="ima_title" value="{{$post->ima}}" class="form-control"/>
+                            @error('ima_title')
+                                <small class="text-danger">{{$message}}</small>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-3">
                             <label>Category name</label>
-                            <select name="category_id" value="{{$post->category_id}}" class="form-select form-select-md mt-2" aria-label=".form-select-lg example">
-                                @foreach ($categories as $key => $cate)
-                                    <option value="{{$cate->id}}">{{$cate->name}}</option>   
+                            <select name="category_id" class="form-select form-select-md mt-2" aria-label=".form-select-lg example">
+                                @foreach ($categories as $cate)
+                                    <option {{$post->category_id == $cate->id  ? 'selected' : ''}} value="{{$cate->id}}">{{$cate->name}}</option>   
                                 @endforeach
                             </select>
                             @error('category_id')
