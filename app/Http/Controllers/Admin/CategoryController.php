@@ -65,7 +65,6 @@ class CategoryController extends Controller
     }
     public function destroy(int $category_id)
     {
-        dd($category_id);
         $category = Category::findOrFail($category_id);
         $category->delete();
         return redirect('admin/category')->with('message','Category Deleted Successfully'); 
