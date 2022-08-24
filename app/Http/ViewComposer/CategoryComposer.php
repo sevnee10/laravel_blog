@@ -14,7 +14,7 @@ use Illuminate\View\View;
      */
     public function compose(View $view)
     { 
-        $categories = Category::orderBy('id','asc')->paginate(10);
+        $categories = Category::orderBy('id','asc')->paginate(1);
         $view->with('categories', $categories);
     }
 }

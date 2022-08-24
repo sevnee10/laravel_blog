@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\EditorController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Client\ClientController;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,8 +32,13 @@ Route::get('/',[ClientController::class,'index']);
 Route::get('/posts/{post_id}',[ClientController::class,'details_post']);
 Route::get('/your-posts',[ClientController::class,'your_posts']);
 Route::get('/create-post',[ClientController::class,'create_your_post']);
+Route::get('/your-post/{post}/edit',[ClientController::class,'edit_your_post']);
+Route::get('/your-post/{post}/delete',[ClientController::class,'delete_your_post']);
+
 Route::post('/save-post',[ClientController::class,'save_post']);
 Route::post('/client-images', [ClientController::class,'store_image'])->name('client-images.store');
+
+Route::put('/your-post/{post}',[ClientController::class,'update_your_post']);
 
 Route::middleware('auth','isAdmin')->prefix('admin')->group(function() {
 
@@ -44,6 +50,7 @@ Route::middleware('auth','isAdmin')->prefix('admin')->group(function() {
         Route::get('/category', 'index');
         Route::get('/category/create', 'create');
         Route::get('/category/{category}/edit','edit');
+        Route::get('/category/{category_id}/delete','destroy');
 
         Route::post('/category', 'store');
         Route::put('/category/{category}', 'update');

@@ -149,5 +149,39 @@
             });
         
         </script>
+      <script>
+      $(document).ready(function(){
+         $(document).on('click', '.page-link', function(event){
+            event.preventDefault(); 
+            var page = $(this).attr('href').split('page=')[1];
+            fetchData(page);
+         });
+
+         function fetchData(page){
+            $.ajax({
+               url: '/admin/category?page=' + page
+            }).done(function(data){
+               $('.loaddata_category').html(data);
+            });
+         }
+      });
+      </script>
+      <script>
+         $(document).ready(function(){
+            $(document).on('click', '.page-link', function(event){
+               event.preventDefault(); 
+               var page = $(this).attr('href').split('page=')[1];
+               fetchData(page);
+            });
+
+            function fetchData(page){
+               $.ajax({
+                  url: '/admin/post?page=' + page
+               }).done(function(data){
+                  $('.loaddata_post').html(data);
+               });
+            }
+         });
+     </script>
     </body>
 </html>

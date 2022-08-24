@@ -41,6 +41,10 @@
                                                 @endforeach
                                             </span>
                                         </span>
+                                        <div class="ic float-end">
+                                            <a href="{{url('/your-post/'.$post->id.'/edit')}}"><span style="color: green;"><i class="fas fa-edit"></i></span></a>
+                                            <a href="{{url('/your-post/'.$post->id.'/delete')}} " onclick="return confirm('Are you sure delete this data?')"><span style="color: red;"><i class="fas fa-trash"></i></span></a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="entry__excerpt">

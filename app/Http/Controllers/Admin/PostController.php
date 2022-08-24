@@ -13,10 +13,12 @@ use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::orderBy('id','asc')->paginate(5);
-        return view('admincp.post.index',compact('posts'));
+        if($request->ajax()){
+            return view('admincp.post.table_post');
+        }
+        return view('admincp.post.index');
     }
     public function create()
     {
@@ -37,7 +39,7 @@ class PostController extends Controller
         $post = new Post;
         $post->title = $validateData['title'];
 
-        $path_url = 'storage';
+        $path_url = 'assets/storage';
         if ($request->file('ima_title')){ 
             $originName = $request->file('ima_title')->getClientOriginalName();
             $fileName = pathinfo($originName, PATHINFO_FILENAME);
@@ -67,7 +69,7 @@ class PostController extends Controller
         $post = Post::findOrFail($post);
         $post->title = $validateData['title'];
 
-        $path_url = 'storage';
+        $path_url = 'assets/storage';
 
         if ($request->file('ima_title')){ 
             $originName = $request->file('ima_title')->getClientOriginalName();

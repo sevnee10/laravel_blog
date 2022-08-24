@@ -11,8 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if($request->ajax()){
+            return view('client.posts.article');
+        }
         return view('client.index');
     }
     public function details_post($post_id)
@@ -62,7 +65,7 @@ class ClientController extends Controller
         $post->status = $request->status == true ? '0':'1';
         $post->user_id = Auth::user()->id;
         $post->save();
-        return back()->with('message','Post Added Successfully');
+        return redirect('/your-posts')->with('message','Post Added Successfully');
     }
     public function store_image(Request $request)
     {
@@ -79,5 +82,46 @@ class ClientController extends Controller
         }
   
         return response()->json(['url' => $url]);
+    }
+    public function edit_your_post(Post $post)
+    {
+        return view('client.posts.edit_your_post',compact('post'));
+    }
+    public function update_your_post(Request $request,$post)
+    {
+        $validateData = $request->validate([
+            'ima_title' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title' => [
+                'required',
+                'string'
+            ],
+            'content' => [
+                'required',
+                'string'
+            ],
+        ]);
+        $post = Post::findOrFail($post);
+        $post->title = $validateData['title'];
+
+        $path_url = 'assets/storage';
+        if ($request->file('ima_title')){ 
+            $originName = $request->file('ima_title')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('ima_title')->getClientOriginalExtension();
+
+            $fileName = Str::slug($fileName) .'.'. $extension;
+            $img = Image::make($request->file('ima_title'))->resize(600, 400)->save(public_path('assets/thumbnails/'.$fileName));
+
+            $request->file('ima_title')->move(public_path($path_url), $fileName);
+            $post->ima = $fileName;
+        }else{
+            $post->ima = '';
+        }
+        $post->category_id = $request->category_id;
+        $post->content = $validateData['content'];
+        $post->status = $request->status == true ? '0':'1';
+        $post->user_id = Auth::user()->id;
+        $post->update();
+        return redirect('/your-posts')->with('message','Post Added Successfully');
     }
 }

@@ -11,8 +11,11 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if($request->ajax()){
+            return view('livewire.admin.category.table_category');
+        }
         return view('admincp.category.index');
     }
     
@@ -59,5 +62,12 @@ class CategoryController extends Controller
 
         $category->update();
         return redirect('admin/category')->with('message','Category Updated Successfully');
+    }
+    public function destroy(int $category_id)
+    {
+        dd($category_id);
+        $category = Category::findOrFail($category_id);
+        $category->delete();
+        return redirect('admin/category')->with('message','Category Deleted Successfully'); 
     }
 }
