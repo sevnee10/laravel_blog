@@ -18,7 +18,7 @@ class EditorController extends Controller
            $originName = $request->file('upload')->getClientOriginalName();
            $fileName = pathinfo($originName, PATHINFO_FILENAME);
            $extension = $request->file('upload')->getClientOriginalExtension();
-           //$fileName = Str::slug($fileName) . '_' . time() . '.' . $extension;
+           
            $fileName = Str::slug($fileName) .'.'. $extension;
            $request->file('upload')->move(public_path($path_url), $fileName);
            $url = asset($path_url . '/' . $fileName);

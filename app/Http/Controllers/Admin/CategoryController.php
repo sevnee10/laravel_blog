@@ -26,7 +26,7 @@ class CategoryController extends Controller
     
     public function store(CategoryFormRequest $request)
     {
-        //dd(Auth::user()->id);
+        
         $validateData = $request->validated();
         $category = new Category;
         $category->name = $validateData['name'];
@@ -49,7 +49,7 @@ class CategoryController extends Controller
     public function update(CategoryFormRequest $request, $category)
     {   
         $validateData = $request->validated();
-        //dd($category);
+        
         $category = Category::findOrFail($category);
         $category->name = $validateData['name'];
         $category->slug = Str::slug($validateData['slug']);
