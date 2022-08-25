@@ -89,9 +89,7 @@
         ================================================== -->
         <div class="s-bricks">
             
-            <div class="masonry">
                 @include('client.posts.article')
-            </div> <!-- end masonry -->
     
         </div> <!-- end s-bricks -->
     </section> <!-- end s-content -->    

@@ -1,7 +1,7 @@
-@extends('layouts.app')
-@section('title','Details Post')
-@section('content')
-        <!-- content
+ @extends('layouts.app')
+ @section('title','Details Post')
+ @section('content')
+ <!-- content
     ================================================== -->
     <section class="s-content">
 
@@ -23,40 +23,44 @@
 
                     <div class="s-content__primary">
 
-                        <div class="s-content__entry-content">    
+                        <div class="s-content__entry-content">
                             {!! $post->content !!}
                         </div> <!-- end s-entry__entry-content -->
 
                         <div class="s-content__entry-meta">
-                            @foreach ($users as $user)
-                            @if($post->user_id == $user->id)
+                            
                             <div class="entry-author meta-blk">
                                 <div class="author-avatar">
                                     <img class="avatar" src="{{asset('frontend/images/avatars/user-06.jpg')}}" alt="">
                                 </div>
-                                <div class="byline">
-                                    <span class="bytext">Posted By</span>
-                                    <a href="#0">{{$user->name}}</a>
-                                </div>
-                            </div>
-                            @endif
-                            @endforeach
-                            <div class="meta-bottom">
-                                @foreach ($categories1 as $cate)
-                                @if($post->category_id == $cate->id)
-                                    <div class="entry-cat-links meta-blk">
-                                        <div class="cat-links">
-                                            <span>Categories</span> 
-                                            <a href="#0">{{$cate->name}}</a>
+                                @foreach ($users as $user)
+                                    @if($user->id==$post->user_id)
+                                        <div class="byline">
+                                            <span class="bytext">Posted By</span>
+                                            <a href="#0">{{$user->name}}</a>
                                         </div>
-                                        <span>On</span>
-                                        {{$post->created_at}}
+                                    @endif
+                                @endforeach       
+                            </div>
+
+                            @foreach ($categories1 as $cate)
+                                @if($cate->id==$post->category_id)
+                                    <div class="meta-bottom">
+                                        <div class="entry-cat-links meta-blk">
+                                            <div class="cat-links">
+                                                <span>In</span> 
+                                                <a href="#0">{{$cate->name}}</a>
+                                            </div>
+
+                                            <span>On</span>
+                                            {{$post->created_at}}
+                                        </div>
+                                        <div class="entry-tags meta-blk">
+                                            <span class="tagtext">Tags</span>
+                                            <a href="#">{{$cate->slug}}</a>
+                                        </div>
+                                        
                                     </div>
-                                    <div class="entry-tags meta-blk">
-                                        <span class="tagtext">Tags</span>
-                                        <a href="#">{{$cate->slug}}</a>
-                                    </div>
-                                </div>
                                 @endif
                             @endforeach
 
@@ -80,7 +84,6 @@
                     </div> <!-- end s-content__primary -->
                 </article> <!-- end entry -->
                 @endif
-                {{-- @endforeach --}}
             @endforeach
             </div> <!-- end column -->
         </div> <!-- end row -->
@@ -174,7 +177,5 @@
 
         </div> <!-- end comments-wrap -->
 
-
     </section> <!-- end s-content -->
-
 @endsection

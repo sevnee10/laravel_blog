@@ -31,7 +31,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label>Category name</label>
                                     <select name="category_id" class="form-select form-select-md mt-2" aria-label=".form-select-lg example">
-                                        @foreach ($categories as $cate)
+                                        @foreach ($categories1 as $cate)
                                             <option {{$post->category_id == $cate->id  ? 'selected' : ''}} value="{{$cate->id}}">{{$cate->name}}</option>   
                                         @endforeach
                                     </select>
