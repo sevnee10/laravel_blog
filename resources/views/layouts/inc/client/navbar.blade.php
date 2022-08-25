@@ -25,7 +25,7 @@
                     <li class="has-children">
                         <a href="/" title="">Categories</a> 
                         <ul class="sub-menu">
-                        @foreach ($categories as $cate)
+                        @foreach ($categories1 as $cate)
                             <li><a href="/">{{$cate->name}}</a></li>
                         @endforeach
                         </ul>   
@@ -35,8 +35,9 @@
                         <ul class="sub-menu">
 
                             <li><a href="{{url('/your-posts')}}">Your Post</a></li>
-                            <li><a href="{{url('/create-post')}}">Create your post</a></li>
-
+                            @if(Auth::id())
+                                <li><a href="{{url('/create-post')}}">Create your post</a></li>
+                            @endif
                         </ul>   
                     </li>
 

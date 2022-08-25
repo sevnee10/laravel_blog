@@ -8,7 +8,7 @@ use App\Http\Requests\CategoryFormRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
+use Mckenziearts\Notify\LaravelNotifyServiceProvider;
 class CategoryController extends Controller
 {
     public function index(Request $request)

@@ -30,7 +30,7 @@
                                 <div class="col-md-12 mb-3">
                                     <label>Category name</label>
                                     <select name="category_id" class="form-select form-select-md mt-2" aria-label=".form-select-lg example">
-                                        @foreach ($categories as $key => $cate)
+                                        @foreach ($categories1 as $key => $cate)
                                             <option value="{{$cate->id}}">{{$cate->name}}</option>   
                                         @endforeach
                                     </select>

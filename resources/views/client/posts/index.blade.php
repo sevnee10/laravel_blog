@@ -42,7 +42,7 @@
                             @endif
                             @endforeach
                             <div class="meta-bottom">
-                                @foreach ($categories as $cate)
+                                @foreach ($categories1 as $cate)
                                 @if($post->category_id == $cate->id)
                                     <div class="entry-cat-links meta-blk">
                                         <div class="cat-links">
