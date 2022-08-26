@@ -124,4 +124,18 @@ class ClientController extends Controller
         $post->update();
         return redirect('/your-posts')->with('message','Post Added Successfully');
     }
+    public function delete_your_post(int $post)
+    {
+        // $post_data = Post::findOrFail($post);
+        // $post_data -> delete();
+        // return redirect('your-posts')->with('message','Post Deleted Successfully'); 
+        return "Your Post Deleted Successfully";
+    }
+    public function search(Request $request)
+    {
+        $keyword = $request->search;
+        $search_post = Post::where('title','like','%'.$keyword.'%')->get();
+        //dd($search_post);
+        return  view('client.posts.search',compact('search_post'));
+    }
 }

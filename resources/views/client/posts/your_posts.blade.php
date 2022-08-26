@@ -48,7 +48,7 @@
                                     </div>
                                 </div>
                                 <div class="entry__excerpt">
-                                    <p>{!!  Str::words($post->content,20) !!}</p>
+                                    <p>{!!  Str::words($post->content,40) !!}</p>
                                 </div>
                                 <a class="entry__more-link" href="{{url('/posts/'.$post->id)}}">Learn More</a>
                             </div> <!-- end entry__text -->

@@ -37,7 +37,7 @@ Route::get('/your-post/{post}/delete',[ClientController::class,'delete_your_post
 
 Route::post('/save-post',[ClientController::class,'save_post']);
 Route::post('/client-images', [ClientController::class,'store_image'])->name('client-images.store');
-
+Route::post('/search-post', [ClientController::class,'search'])->name('search-post.search');
 Route::put('/your-post/{post}',[ClientController::class,'update_your_post']);
 
 Route::middleware('auth','isAdmin')->prefix('admin')->group(function() {
