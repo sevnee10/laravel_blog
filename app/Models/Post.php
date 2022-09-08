@@ -16,4 +16,10 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function likes(){
+        return $this->hasMany(Like::class,'post_id');
+    }
+    public function comments(){
+        return $this->hasMany(Comment::class,'post_id','id')->orderBy('id','desc');
+    }
 }

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <meta name="meta_data" data-token="{{csrf_token()}}" data-user="{{auth()->check() ? auth()->id() : 0}}">
+        
     <title>@yield('title')</title>
 
     <!-- Fonts -->
@@ -17,6 +17,8 @@
     <!-- Scripts -->
     <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('assets/js/jquery-3.6.0.js')}}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -34,7 +36,10 @@
     ================================================== -->
     <script src="{{asset('frontend/js/modernizr.js')}}"></script>
     <script src="{{asset('frontend/js/fontawesome/all.min.js')}}"></script>
-
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
     <body id=top>
         <div id="app">
@@ -131,10 +136,87 @@
             ClassicEditor.create(document.querySelector("#content"), {
                extraPlugins: [SimpleUploadAdapterPlugin],
             }).catch((error) => {
-               console.error(error);
+               
             });
         
         </script>
          @stack('script')
+         {{-- <script>
+            $(document).ready(function(){
+                $.ajaxSetup({
+                  headers: { 'csrftoken' : '{{ csrf_token() }}' }
+                });
+                
+                $(document).ready(function () {
+                  $('#search').on('keyup', function(){
+                     var value = $(this).val();
+                     $.ajax({
+                        type: "get",
+                        url: "/search-post",
+                        data: {'search':value},
+                        success: function (data) {
+                           $('#article').html(data);
+                        }
+                     });
+                  });
+               });
+            });
+        </script> --}}
+        <script>
+         var meta_data = $('meta[name="meta_data"]');    
+            $('.press').click(function () {
+               if(meta_data.data('user') == 0){
+                  toastr.error('Please Login!');
+                  return;
+               }
+               var elem = $(this).parents('.s-content__entry');
+               var data = {};
+               data.post_id = elem.data('post');
+               $.ajax({
+                     url : '/save-liked',
+                     data,
+                     success : function (data) {
+                        elem.find('.press').text(data.likes);
+                        if(elem.find('.press').hasClass('heart')){
+                           elem.find('.press').removeClass('heart');
+                        }else{
+                           elem.find('.press').addClass('heart');
+                        }
+                     }
+               });
+            });
+        </script>
+        <script> 
+            $('#btn-login').click(function(e){
+               e.preventDefault();
+               var _token = '{{ csrf_token() }}';
+               var _loginUrl = '{{route("ajax-login.ajax_login")}}';
+               var email = $('#email').val();
+               var password = $('#password').val();
+               $.ajax({
+                  url:_loginUrl,
+                  type:"POST",
+                  data:{
+                     email:email,
+                     password:password,
+                     _token:_token,
+                  },
+                  success:function(response){
+                     if(response.error){
+                        let _error = '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>';
+                        for(let er of response.error){
+                           _error+= `<li>${er}</li>`;
+                        }
+                        _error +='</div>';
+                        $('#error').html(_error);
+                     }else{
+
+                        location.reload();
+                     }
+                  }
+               });
+            });
+         </script>
+         @yield('js_post')
     </body>
 </html>

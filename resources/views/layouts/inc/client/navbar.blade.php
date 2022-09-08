@@ -33,9 +33,8 @@
                     <li class="has-children">
                         <a href="/" title="">Blog</a> 
                         <ul class="sub-menu">
-
-                            <li><a href="{{url('/your-posts')}}">Your Post</a></li>
                             @if(Auth::id())
+                                <li><a href="{{url('/your-posts')}}">Your Post</a></li>
                                 <li><a href="{{url('/create-post')}}">Create your post</a></li>
                             @endif
                         </ul>   
@@ -88,11 +87,12 @@
             <div class="s-header__search-inner">
                 <div class="row wide">
 
+                    {{-- <form role="search" class="s-header__search-form"> --}}
                     <form role="search" method="POST" class="s-header__search-form" action="{{url('/search-post')}}">
                         @csrf
                         <label>
                             <span class="h-screen-reader-text">Search for:</span>
-                            <input type="search" class="s-header__search-field" placeholder="Search for..." value="" name="search" title="Search for:" autocomplete="off">
+                            <input type="search" id="search" class="s-header__search-field" placeholder="Search for..." value="" name="search" title="Search for:" autocomplete="off">
                         </label>
                         <input type="submit" class="s-header__search-submit" value="Search"> 
                     </form>

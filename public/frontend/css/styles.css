@@ -5282,3 +5282,40 @@ h3.addpost {
 select.form-select.form-select-md.mt-2 {
     font-size: 18px;
 }
+
+.heart{
+    color: red;
+}
+
+i.fal.fa-heart.press.float-right.heart,
+i.fal.fa-heart.press.float-right {
+    font-size: 25px;
+}
+
+
+h5#modalTitleId {
+    font-size: 30px;
+}
+
+button.btn.btn-outline-dark.btn--small.cm {
+    width: 50%;
+    margin-left: 25%;
+}
+
+button.btn.btn-outline-dark.btn--small.rp_cm {
+    font-size: 10px;
+}
+
+#btn-login {
+    width: 50%;
+    margin-left: 25%;
+}
+
+textarea.reply-message{
+    min-height: 0;  
+    width: 1000px;
+}
+
+.reply-block{
+    margin-left: 30px;
+}

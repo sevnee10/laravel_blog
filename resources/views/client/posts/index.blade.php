@@ -9,7 +9,7 @@
             <div class="column large-12">
                 @foreach ($posts as $post)
                 @if($post->id == $post_id )
-                <article class="s-content__entry format-standard">
+                <article class="s-content__entry format-standard" data-post="{{$post->id}}">
 
                     <div class="s-content__media">
                         <div class="s-content__post-thumb">
@@ -25,10 +25,15 @@
 
                         <div class="s-content__entry-content">
                             {!! $post->content !!}
-                        </div> <!-- end s-entry__entry-content -->
-
+                            <small class="float-right">
+                                @auth
+                                    <i class="fal fa-heart press {{$post->likes->contains('user_id',auth()->id()) ? 'heart' : ''}} float-right">{{$post->likes->count()}}</i>
+                                @else
+                                    <i class="fal fa-heart press float-right">{{$post->likes->count()}}</i>
+                                @endauth
+                            </small>
+                        </div> <!-- end s-entry__entry-content -->                   
                         <div class="s-content__entry-meta">
-                            
                             <div class="entry-author meta-blk">
                                 <div class="author-avatar">
                                     <img class="avatar" src="{{asset('frontend/images/avatars/user-06.jpg')}}" alt="">
@@ -82,100 +87,158 @@
                          </div> <!-- end s-content__pagenav -->
 
                     </div> <!-- end s-content__primary -->
+                    
                 </article> <!-- end entry -->
                 @endif
             @endforeach
-            </div> <!-- end column -->
+            </div> <!-- end column -->    
         </div> <!-- end row -->
-
 
         <!-- comments
         ================================================== -->
         <div class="comments-wrap">
-
             <div id="comments" class="row">
-                <div class="column large-12">
-
-                    <h3>5 Comments</h3>
-
-                    <!-- START commentlist -->
-                    <ol class="commentlist">
-
-                        <li class="depth-1 comment">
-
-                            <div class="comment__avatar">
-                                <img class="avatar" src="{{asset('frontend/images/avatars/user-01.jpg')}}" alt="" width="50" height="50">
-                            </div>
-
-                            <div class="comment__content">
-
-                                <div class="comment__info">
-                                    <div class="comment__author">Itachi Uchiha</div>
-
-                                    <div class="comment__meta">
-                                        <div class="comment__time">Oct 05, 2020</div>
-                                        <div class="comment__reply">
-                                            <a class="comment-reply-link" href="#0">Reply</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="comment__text">
-                                <p>Adhuc quaerendum est ne, vis ut harum tantas noluisse, id suas iisque mei. Nec te inani ponderum vulputate,
-                                facilisi expetenda has et. Iudico dictas scriptorem an vim, ei alia mentitum est, ne has voluptua praesent.</p>
-                                </div>
-
-                            </div>
-
-                        </li> <!-- end comment level 1 -->
-                    </ol>
-                    <!-- END commentlist -->
-
+                <div id="comment-list" class="column large-12">
+                    <h3>All Comments</h3>
+                    @include('client.posts.comments')
                 </div> <!-- end col-full -->
             </div> <!-- end comments -->
-
-
+        
             <div class="row comment-respond">
-
+        
                 <!-- START respond -->
                 <div id="respond" class="column">
-
-                    <h3>
-                    Add Comment 
-                    <span>Your email address will not be published.</span>
-                    </h3>
-
-                    <form name="contactForm" id="contactForm" method="post" action="" autocomplete="off">
-                        <fieldset>
-
-                            <div class="form-field">
-                                <input name="cName" id="cName" class="h-full-width h-remove-bottom" placeholder="Your Name" value="" type="text">
-                            </div>
-
-                            <div class="form-field">
-                                <input name="cEmail" id="cEmail" class="h-full-width h-remove-bottom" placeholder="Your Email" value="" type="text">
-                            </div>
-
-                            <div class="form-field">
-                                <input name="cWebsite" id="cWebsite" class="h-full-width h-remove-bottom" placeholder="Website" value="" type="text">
-                            </div>
-
-                            <div class="message form-field">
-                                <textarea name="cMessage" id="cMessage" class="h-full-width" placeholder="Your Message"></textarea>
-                            </div>
-
-                            <br>
-                            <input name="submit" id="submit" class="btn btn--primary btn-wide btn--large h-full-width" value="Add Comment" type="submit">
-
-                        </fieldset>
-                    </form> <!-- end form -->
-
+        
+                    <h3> Add Comment </h3>
+                    @if(Auth::check())
+                        <!-- start form -->
+                        <form name="contactForm" id="contactForm" method="post" action="" autocomplete="off">
+                            <fieldset>
+                                <div class="message form-field">
+                                    <textarea name="cMessage" id="msg-content" class="h-full-width" required="required" placeholder="Your Message"></textarea>
+                                </div>
+                                <br>
+                                <button id="btn-comment" class="btn btn--primary btn-wide btn--large h-full-width" type="button">Add Comment</button>
+                            </fieldset>
+                        </form> 
+                        <!-- end form -->
+                    @else
+                        <button type="button" class="btn btn-outline-dark btn--small cm" data-bs-toggle="modal" data-bs-target="#modalId">
+                            Login to comment
+                        </button>
+                    @endif
                 </div>
                 <!-- END respond-->
-
+        
             </div> <!-- end comment-respond -->
-
+        
         </div> <!-- end comments-wrap -->
-
+        
     </section> <!-- end s-content -->
+    <!--  Modal trigger button  -->
+    
+    
+    <!-- Modal Body-->
+    <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">Login Now!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="error"></div>
+                    <br>
+                    <form method="POST" action="">
+                        <div class="form-group mt-3">
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                            <label class="form-control-placeholder" for="username">Email</label>
+                        </div>
+                        <div class="form-group">
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                            <label class="form-control-placeholder" for="password">Password</label>
+                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="btn-login" class="btn btn--small btn-outline-success">Login</button>
+                        </div>
+                        <div class="text-center">
+                            <p>or sign up with:</p>
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                <i class="fab fa-google"></i>
+                            </button>       
+                        </div>    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('js_post')
+    <script>
+        var _token = '{{ csrf_token() }}';
+        var _commentUrl = '{{route("ajax-comment.ajax_comment" , $post_id)}}';
+        $('#btn-comment').on('click',function(e){
+               e.preventDefault();
+               let message = $('#msg-content').val();
+               $.ajax({
+                  url:_commentUrl,
+                  type:"POST",
+                  data:{
+                     message:message,
+                     _token:_token,
+                  },
+                  success:function(response){
+                     if(response.error){
+                        toastr.error(response.error);
+                     }else{
+                        toastr.success('Add comment successfully!');
+                        $('#msg-content').val('');
+                        $('#comment-list').html(response);
+                     }
+                  }
+               });
+            });   
+        $(document).on('click','.btn-show-reply-form',function(e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            var form_reply = ('.form-reply-') + id;
+            var comment_reply_id = '#msg-reply-content-' +id;
+            var msgReply = $(comment_reply_id).val();
+            $('.formReply').slideUp();
+            $(form_reply).slideDown();    
+            $.ajax({
+
+            });
+        });
+        $(document).on('click','.btn-reply-comment',function(e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            var comment_reply_id = '#msg-reply-content-' +id;
+            var msgReply = $(comment_reply_id).val();  
+            var form_reply = ('.form-reply-') + id;
+
+            $.ajax({
+                url:_commentUrl,
+                type:"POST",
+                data:{
+                    message:msgReply,
+                    reply_id:id,
+                    _token:_token,
+                },
+                success:function(response){
+                    if(response.error){
+                        toastr.error(response.error);
+                    }else{
+                        toastr.success('Add comment successfully!');
+                        $('.reply-message').val('');
+                        $('#comment-list').html(response);
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

@@ -34,10 +34,13 @@ Route::get('/your-posts',[ClientController::class,'your_posts']);
 Route::get('/create-post',[ClientController::class,'create_your_post']);
 Route::get('/your-post/{post}/edit',[ClientController::class,'edit_your_post']);
 Route::get('/your-post/{post}/delete',[ClientController::class,'delete_your_post']);
+Route::get('/save-liked', [ClientController::class,'save_liked']);
 
 Route::post('/save-post',[ClientController::class,'save_post']);
 Route::post('/client-images', [ClientController::class,'store_image'])->name('client-images.store');
 Route::post('/search-post', [ClientController::class,'search'])->name('search-post.search');
+Route::post('/ajax-login', [ClientController::class,'ajax_login'])->name('ajax-login.ajax_login');
+Route::post('/ajax-comment/{post_id}', [ClientController::class,'ajax_comment'])->name('ajax-comment.ajax_comment');
 Route::put('/your-post/{post}',[ClientController::class,'update_your_post']);
 
 Route::middleware('auth','isAdmin')->prefix('admin')->group(function() {
